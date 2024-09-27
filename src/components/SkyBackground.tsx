@@ -1,4 +1,3 @@
-// SkyBackground.js
 import { Sky } from "@react-three/drei";
 
 function SkyBackground() {

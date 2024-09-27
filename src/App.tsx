@@ -1,17 +1,14 @@
-import Balk from "./Balk";
 import GroundPlane from "./components/GroundPlane";
 import CanvasContainer from "./components/Canvas";
-import { Suspense } from "react";
 import Skybox from "./components/Skybox";
+import BalkWithCorner from "./components/BalkWithCorner";
 
 function App() {
   return (
     <CanvasContainer>
-      <Suspense fallback={null}>
-        <Skybox />
-        <GroundPlane />
-        <Balk />
-      </Suspense>
+      <Skybox />
+      <GroundPlane />
+      <BalkWithCorner directions={["n", "s"]} />
       <axesHelper args={[5]} />;
     </CanvasContainer>
   );
