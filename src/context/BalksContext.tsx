@@ -10,7 +10,7 @@ interface BalksProviderProps {
 }
 
 export const BalksProvider: FC<BalksProviderProps> = ({ children }) => {
-  const [config, setConfig] = useState<BalksConfig>({ width: 3, depth: 3 });
+  const [config, setConfig] = useState<BalksConfig>({ width: 5, depth: 3 });
 
   return (
     <BalksContext.Provider value={{ config, setConfig }}>

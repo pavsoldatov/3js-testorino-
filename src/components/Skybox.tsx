@@ -1,6 +1,6 @@
 import { Environment } from "@react-three/drei";
 
-import file from "../assets/skybox/venetian_crossroads_1k.exr?url";
+import file from "../assets/skybox/venetian_crossroads_1k.hdr?url";
 
 function Skybox() {
   return (

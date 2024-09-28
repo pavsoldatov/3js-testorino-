@@ -1,25 +1,20 @@
-import { useRef } from "react";
+import { useMemo, useRef } from "react";
 import { InstancedMesh } from "three";
 import { useModels } from "../hooks/useModels";
 import { useBalksContext } from "../hooks/useBalksContext";
-import { useAdjustedInstances } from "../hooks/useAdjustedInstances";
-import { BalkInstance } from "../types";
 import { Instance, Instances } from "@react-three/drei";
+import { createBalksAndCorners } from "../utils/createBalks";
 
-interface InstancedBalksProps {
-  balks: BalkInstance[];
-  corners: BalkInstance[];
-}
-
-export function InstancedBalks({ balks, corners }: InstancedBalksProps) {
+export function InstancedBalks() {
   const { balkGeometry, cornerGeometry, material } = useModels();
   const balkRef = useRef<InstancedMesh>(null);
   const cornerRef = useRef<InstancedMesh>(null);
-  
-  const { config } = useBalksContext();
-  const adjustedBalks = useAdjustedInstances(balks, config);
-  const adjustedCorners = useAdjustedInstances(corners, config);
 
+  const { config } = useBalksContext();
+  // const adjustedBalks = useAdjustedInstances(balks, config);
+  const { balks, corners } = useMemo(() => {
+    return createBalksAndCorners(config.width, config.depth, 4, 4);
+  }, [config.depth, config.width]);
   return (
     <group>
       <Instances
@@ -28,7 +23,7 @@ export function InstancedBalks({ balks, corners }: InstancedBalksProps) {
         limit={200}
         ref={balkRef}
       >
-        {adjustedBalks.map((balk, index) => (
+        {balks.map((balk, index) => (
           <Instance
             key={index}
             position={balk.position}
@@ -42,7 +37,7 @@ export function InstancedBalks({ balks, corners }: InstancedBalksProps) {
         limit={200}
         ref={cornerRef}
       >
-        {adjustedCorners.map((corner, index) => (
+        {corners.map((corner, index) => (
           <Instance
             key={index}
             position={corner.position}

@@ -4,7 +4,6 @@ import Skybox from "./components/Skybox";
 import { InstancedBalks } from "./components/InstancedBalks";
 import Lighting from "./components/Lighting";
 import AsideControls from "./components/AsideControls";
-import { balks, corners } from "./components/balkData";
 import { BalksProvider } from "./context/BalksContext";
 
 function App() {
@@ -16,7 +15,7 @@ function App() {
           <Skybox />
           <Lighting />
           <GroundPlane />
-          <InstancedBalks balks={balks} corners={corners} />
+          <InstancedBalks />
           <axesHelper args={[5]} />
         </CanvasContainer>
       </div>

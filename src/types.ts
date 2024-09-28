@@ -1,9 +1,8 @@
-import { Euler } from "@react-three/fiber";
+import { Vector3, Euler } from "three";
 import { Dispatch, SetStateAction } from "react";
-import { Vector3Tuple } from "three";
 
 export interface BalkInstance {
-  position: Vector3Tuple;
+  position: Vector3;
   rotation: Euler;
 }
 

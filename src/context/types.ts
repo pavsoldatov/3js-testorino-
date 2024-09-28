@@ -1,3 +1,5 @@
+import { Dispatch, SetStateAction } from "react";
+
 export interface BalksConfig {
   width: number;
   depth: number;
@@ -10,5 +12,5 @@ export interface GridDimensions {
 
 export interface BalksContextType {
   config: BalksConfig;
-  setConfig: React.Dispatch<React.SetStateAction<BalksConfig>>;
+  setConfig: Dispatch<SetStateAction<BalksConfig>>;
 }

@@ -1,19 +1,20 @@
 import { useMemo } from "react";
-import { BalkInstance, BalksConfig } from "../types";
+import { BalkInstance, BalksConfig, CornerInstance } from "../types";
 import { GRID_DIMENSIONS } from "../constants";
+import { Vector3 } from "three";
 
 export const useAdjustedInstances = (
-  instances: BalkInstance[],
+  instances: BalkInstance[] | CornerInstance[],
   config: BalksConfig
-): BalkInstance[] => {
+): BalkInstance[] | CornerInstance[] => {
   return useMemo(() => {
     return instances.map((instance) => ({
       ...instance,
-      position: [
-        (instance.position[0] * config.width) / GRID_DIMENSIONS.width,
-        instance.position[1],
-        (instance.position[2] * config.depth) / GRID_DIMENSIONS.depth,
-      ],
+      position: new Vector3(
+        instance.position.x * (config.width / GRID_DIMENSIONS.width),
+        instance.position.y,
+        instance.position.z * (config.depth / GRID_DIMENSIONS.depth)
+      ),
     }));
   }, [instances, config.width, config.depth]);
 };
