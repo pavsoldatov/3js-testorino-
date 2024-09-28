@@ -8,7 +8,12 @@ function GroundPlane() {
       args={[100, 100]}
       receiveShadow
     >
-      <meshStandardMaterial attach="material" color="lightgrey" />
+      <meshStandardMaterial
+        attach="material"
+        color="lightgrey"
+        metalness={0.0}
+        roughness={0.0}
+      />
     </Plane>
   );
 }
