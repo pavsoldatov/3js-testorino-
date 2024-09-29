@@ -1,26 +1,36 @@
 import { useMemo, useRef } from "react";
-import { InstancedMesh } from "three";
-import { useModels } from "../hooks/useModels";
-import { useBalksContext } from "../hooks/useBalksContext";
+import { Euler, InstancedMesh, Vector3 } from "three";
 import { Instance, Instances } from "@react-three/drei";
-import { createBalksAndCorners } from "../utils/createBalks";
+import { useDimensions } from "../hooks/useDimensions";
+import { useAssets } from "../hooks/useAssets";
+import { createBalksAndCorners } from "../utils/createBalksAndCorners";
+import { BUFFERED_BALKS_LIMIT, BUFFERED_CORNERS_LIMIT } from "../constants";
+
+export interface BalkInstance {
+  position: Vector3;
+  rotation: Euler;
+}
+
+export type CornerInstance = BalkInstance;
 
 export function InstancedBalks() {
-  const { balkGeometry, cornerGeometry, material } = useModels();
+  const { balkGeometry, cornerGeometry, material } = useAssets();
+
   const balkRef = useRef<InstancedMesh>(null);
   const cornerRef = useRef<InstancedMesh>(null);
 
-  const { config } = useBalksContext();
-  // const adjustedBalks = useAdjustedInstances(balks, config);
-  const { balks, corners } = useMemo(() => {
-    return createBalksAndCorners(config.width, config.depth, 4, 4);
-  }, [config.depth, config.width]);
+  const { config } = useDimensions();
+  const { balks, corners } = useMemo(
+    () => createBalksAndCorners(config.width, config.depth, 4),
+    [config.depth, config.width]
+  );
+
   return (
     <group>
       <Instances
         geometry={balkGeometry}
         material={material}
-        limit={200}
+        limit={BUFFERED_BALKS_LIMIT}
         ref={balkRef}
       >
         {balks.map((balk, index) => (
@@ -34,7 +44,7 @@ export function InstancedBalks() {
       <Instances
         geometry={cornerGeometry}
         material={material}
-        limit={200}
+        limit={BUFFERED_CORNERS_LIMIT}
         ref={cornerRef}
       >
         {corners.map((corner, index) => (

@@ -1,25 +1,28 @@
 import GroundPlane from "./components/GroundPlane";
-import CanvasContainer from "./components/Canvas";
+import CanvasContainer from "./components/CanvasContainer";
 import Skybox from "./components/Skybox";
 import { InstancedBalks } from "./components/InstancedBalks";
 import Lighting from "./components/Lighting";
 import AsideControls from "./components/AsideControls";
-import { BalksProvider } from "./context/BalksContext";
+import { DimensionsProvider } from "./context/DimensionsContext/DimensionsProvider";
+import { AssetsProvider } from "./context/AssetsContext/AssetsProvider";
 
 function App() {
   return (
-    <BalksProvider>
+    <DimensionsProvider>
       <div style={{ display: "flex", width: "100vw", height: "100vh" }}>
         <AsideControls />
         <CanvasContainer>
           <Skybox />
           <Lighting />
           <GroundPlane />
-          <InstancedBalks />
+          <AssetsProvider>
+            <InstancedBalks />
+          </AssetsProvider>
           <axesHelper args={[5]} />
         </CanvasContainer>
       </div>
-    </BalksProvider>
+    </DimensionsProvider>
   );
 }
 

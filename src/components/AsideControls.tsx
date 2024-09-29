@@ -1,18 +1,17 @@
 import { ChangeEvent } from "react";
-import { useBalksContext } from "../hooks/useBalksContext";
+import { useDimensions } from "../hooks/useDimensions";
+import { MAX_DEPTH, MAX_WIDTH, MIN_DEPTH, MIN_WIDTH } from "../constants";
 
 function AsideControls() {
-  const { config, setConfig } = useBalksContext();
+  const { config, setConfig } = useDimensions();
 
   const handleWidthChange = (event: ChangeEvent<HTMLInputElement>) => {
     const width = parseFloat(event.target.value);
-    console.log(width)
     setConfig((prev) => ({ ...prev, width }));
   };
 
   const handleDepthChange = (event: ChangeEvent<HTMLInputElement>) => {
     const depth = parseFloat(event.target.value);
-    console.log(depth)
     setConfig((prev) => ({ ...prev, depth }));
   };
 
@@ -25,29 +24,29 @@ function AsideControls() {
         padding: "10px",
       }}
     >
-      <h2>Aside Content</h2>
-      <div style={{ paddingBlock: "8px" }}></div>
       <h2>Balk Configuration</h2>
-      <div>
+      <div style={{ paddingBlock: "4px" }}></div>
+      <div style={{ paddingBlock: "0.5rem" }}></div>
+      <div style={{ display: "flex", alignItems: "center", lineHeight: "1.8" }}>
         <label htmlFor="width">Width (mm): </label>
         <input
           type="range"
           id="width"
-          min={3}
-          max={20}
+          min={MIN_WIDTH}
+          max={MAX_WIDTH}
           step={0.5}
           value={config.width}
           onChange={handleWidthChange}
         />
         <span>{config.width * 1000}</span>
       </div>
-      <div>
+      <div style={{ display: "flex", alignItems: "center", lineHeight: "1.8" }}>
         <label htmlFor="depth">Depth (mm): </label>
         <input
           type="range"
           id="depth"
-          min={3}
-          max={5}
+          min={MIN_DEPTH}
+          max={MAX_DEPTH}
           step={0.5}
           value={config.depth}
           onChange={handleDepthChange}
