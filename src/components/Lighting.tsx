@@ -20,7 +20,7 @@ function Lighting() {
   }, []);
 
   const directionalLight2 = useMemo(() => {
-    const light = new DirectionalLight(0xffddaa, 3); // top-left
+    const light = new DirectionalLight(0xffddaa, 1); // top-left
     light.position.set(-10, 8, -10);
     light.target.position.set(0, 0, 0);
     light.castShadow = true;
@@ -28,7 +28,7 @@ function Lighting() {
   }, []);
 
   const directionalLight3 = useMemo(() => {
-    const light = new DirectionalLight(0xffddaa, 1); // bottom-right
+    const light = new DirectionalLight(0xffddaa, 0.5); // bottom-right
     light.position.set(10, 5, -10);
     light.target.position.set(0, 0, 0);
     light.castShadow = true;
@@ -36,7 +36,7 @@ function Lighting() {
   }, []);
 
   const directionalLight4 = useMemo(() => {
-    const light = new DirectionalLight(0xffddaa, 2); // bottom-left
+    const light = new DirectionalLight(0xffddaa, 0.75); // bottom-left
     light.position.set(-10, 5, 10);
     light.target.position.set(0, 0, 0);
     light.castShadow = true;

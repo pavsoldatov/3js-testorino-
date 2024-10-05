@@ -6,8 +6,8 @@ export interface Dimensions {
 }
 
 export interface DimensionsType {
-  config: Dimensions;
-  setConfig: Dispatch<SetStateAction<Dimensions>>;
+  dimensions: Dimensions;
+  setDimensions: Dispatch<SetStateAction<Dimensions>>;
 }
 
 export const DimensionsContext = createContext<DimensionsType | undefined>(
