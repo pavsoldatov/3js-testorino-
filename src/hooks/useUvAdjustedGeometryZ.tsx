@@ -1,18 +1,17 @@
 import { useMemo } from "react";
 import { BufferGeometry, Vector3 } from "three";
 
-interface AdjustGeometryProps {
+interface AdjustGeometryZProps {
   geometry?: BufferGeometry;
   scale: Vector3;
-  offset?: number;
   scaleFactor?: number;
 }
 
-export function useUvAdjustedGeometry({
+export function useUvAdjustedGeometryZ({
   geometry,
   scale,
   scaleFactor = 0.5,
-}: AdjustGeometryProps) {
+}: AdjustGeometryZProps) {
   return useMemo(() => {
     if (!geometry) return;
 
@@ -20,12 +19,12 @@ export function useUvAdjustedGeometry({
     const uvAttribute = clonedGeometry.attributes.uv;
     const uvs = uvAttribute.array;
 
+    // Adjust UVs based on the X-axis scaling
     for (let i = 0; i < uvs.length; i += 2) {
-      // Apply scaling
-      uvs[i] *= scale.x * scaleFactor;
+      uvs[i] *= scale.z * scaleFactor; // Adjust along Z-axis
     }
 
     uvAttribute.needsUpdate = true;
     return clonedGeometry;
-  }, [geometry, scale.x, scaleFactor]);
+  }, [geometry, scale.z, scaleFactor]);
 }

@@ -15,7 +15,6 @@ function App() {
         <AsideControls />
         <CanvasContainer>
           <Skybox />
-          {/* Lighting for wood2 */}
           {/* <Lighting /> */}
           <GroundPlane />
           <Suspense>

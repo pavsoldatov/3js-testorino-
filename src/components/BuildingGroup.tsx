@@ -8,6 +8,7 @@ import { HorizontalBalks } from "./HorizontalBalks";
 import { VerticalBalks } from "./VerticalBalks";
 import { VerticalBalkCorners } from "./VerticalBalkCorners";
 import Lodges from "./Lodges";
+import { RoofUnderlayLodges } from "./RoofUnderlayLodges";
 import RoofUnderlays from "./RoofUnderlays";
 
 export interface BalkInstance {
@@ -24,7 +25,9 @@ export function BuildingGroup() {
     verticalBalkCorner,
     lodge,
     roofUnderlay,
+    topLodge,
     wood1,
+    wood2,
   } = useAssets();
 
   const { dimensions } = useDimensions();
@@ -40,17 +43,25 @@ export function BuildingGroup() {
 
   return (
     <group>
-      <RoofUnderlays
-        width={dimensions.width + overhangInner * 2}
-        depth={dimensions.depth + overhangOuter * 2}
-        geometry={roofUnderlay}
-        material={wood1}
+
+      <RoofUnderlayLodges
+        width={dimensions.width}
+        depth={dimensions.depth}
+        geometry={topLodge}
+        material={wood2}
       />
+
+      {/* <RoofUnderlays
+        width={dimensions.width + overhangInner * 2}
+        depth={dimensions.depth + overhangInner * 2}
+        geometry={roofUnderlay}
+        material={wood2}
+      /> */}
 
       <Lodges
         dimensions={dimensions}
         geometry={lodge}
-        material={wood1}
+        material={wood2}
         verticalBalkWidth={verticalBalkWidth}
         lodgeDepth={lodgeDepth}
         innerOffsetHeightIncrement={innerOffsetHeightIncrement}
@@ -62,302 +73,20 @@ export function BuildingGroup() {
         width={dimensions.width}
         depth={dimensions.depth}
         geometry={horizontalBalk}
-        material={wood1}
+        material={wood2}
       />
       <VerticalBalks
         balks={balks}
         geometry={verticalBalk}
-        material={wood1}
+        material={wood2}
         limit={BUFFERED_BALKS_LIMIT}
       />
       <VerticalBalkCorners
         corners={corners}
         geometry={verticalBalkCorner}
-        material={wood1}
+        material={wood2}
         limit={BUFFERED_CORNERS_LIMIT}
       />
     </group>
   );
 }
-
-// {
-/* <mesh
-// height of vertical balk + half its depth to offset the centered origin + height offset + full lodge height
-position={
-  new Vector3(-0.19 * 14 - 0.19 * 0.5, 2.2 + 0.01 + innerOffsetHeightIncrement + 0.2, 0)
-}
-scale={new Vector3(1, 1, dimensions.depth + 0.18 * 2)}
-geometry={roofUnderlay}
-material={wood1}
-/>
-<mesh
-// height of vertical balk + half its depth to offset the centered origin + height offset + full lodge height
-position={
-  new Vector3(-0.19 * 13 - 0.19 * 0.5, 2.2 + 0.01 + innerOffsetHeightIncrement + 0.2, 0)
-}
-scale={new Vector3(1, 1, dimensions.depth + 0.18 * 2)}
-geometry={roofUnderlay}
-material={wood1}
-/>
-<mesh
-// height of vertical balk + half its depth to offset the centered origin + height offset + full lodge height
-position={
-  new Vector3(-0.19 * 12 - 0.19 * 0.5, 2.2 + 0.01 + innerOffsetHeightIncrement + 0.2, 0)
-}
-scale={new Vector3(1, 1, dimensions.depth + 0.18 * 2)}
-geometry={roofUnderlay}
-material={wood1}
-/>
-<mesh
-// height of vertical balk + half its depth to offset the centered origin + height offset + full lodge height
-position={
-  new Vector3(-0.19 * 11 - 0.19 * 0.5, 2.2 + 0.01 + innerOffsetHeightIncrement + 0.2, 0)
-}
-scale={new Vector3(1, 1, dimensions.depth + 0.18 * 2)}
-geometry={roofUnderlay}
-material={wood1}
-/>
-<mesh
-// height of vertical balk + half its depth to offset the centered origin + height offset + full lodge height
-position={
-  new Vector3(-0.19 * 10 - 0.19 * 0.5, 2.2 + 0.01 + innerOffsetHeightIncrement + 0.2, 0)
-}
-scale={new Vector3(1, 1, dimensions.depth + 0.18 * 2)}
-geometry={roofUnderlay}
-material={wood1}
-/>
-<mesh
-// height of vertical balk + half its depth to offset the centered origin + height offset + full lodge height
-position={
-  new Vector3(-0.19 * 9 - 0.19 * 0.5, 2.2 + 0.01 + innerOffsetHeightIncrement + 0.2, 0)
-}
-scale={new Vector3(1, 1, dimensions.depth + 0.18 * 2)}
-geometry={roofUnderlay}
-material={wood1}
-/>
-<mesh
-// height of vertical balk + half its depth to offset the centered origin + height offset + full lodge height
-position={
-  new Vector3(-0.19 * 8 - 0.19 * 0.5, 2.2 + 0.01 + innerOffsetHeightIncrement + 0.2, 0)
-}
-scale={new Vector3(1, 1, dimensions.depth + 0.18 * 2)}
-geometry={roofUnderlay}
-material={wood1}
-/>
-<mesh
-// height of vertical balk + half its depth to offset the centered origin + height offset + full lodge height
-position={
-  new Vector3(-0.19 * 7 - 0.19 * 0.5, 2.2 + 0.01 + innerOffsetHeightIncrement + 0.2, 0)
-}
-scale={new Vector3(1, 1, dimensions.depth + 0.18 * 2)}
-geometry={roofUnderlay}
-material={wood1}
-/>
-<mesh
-// height of vertical balk + half its depth to offset the centered origin + height offset + full lodge height
-position={
-  new Vector3(-0.19 * 6 - 0.19 * 0.5, 2.2 + 0.01 + innerOffsetHeightIncrement + 0.2, 0)
-}
-scale={new Vector3(1, 1, dimensions.depth + 0.18 * 2)}
-geometry={roofUnderlay}
-material={wood1}
-/>
-<mesh
-// height of vertical balk + half its depth to offset the centered origin + height offset + full lodge height
-position={
-  new Vector3(-0.19 * 5 - 0.19 * 0.5, 2.2 + 0.01 + innerOffsetHeightIncrement + 0.2, 0)
-}
-scale={new Vector3(1, 1, dimensions.depth + 0.18 * 2)}
-geometry={roofUnderlay}
-material={wood1}
-/>
-<mesh
-// height of vertical balk + half its depth to offset the centered origin + height offset + full lodge height
-position={
-  new Vector3(-0.19 * 4 - 0.19 * 0.5, 2.2 + 0.01 + innerOffsetHeightIncrement + 0.2, 0)
-}
-scale={new Vector3(1, 1, dimensions.depth + 0.18 * 2)}
-geometry={roofUnderlay}
-material={wood1}
-/>
-<mesh
-// height of vertical balk + half its depth to offset the centered origin + height offset + full lodge height
-position={
-  new Vector3(-0.19 * 3 - 0.19 * 0.5, 2.2 + 0.01 + innerOffsetHeightIncrement + 0.2, 0)
-}
-scale={new Vector3(1, 1, dimensions.depth + 0.18 * 2)}
-geometry={roofUnderlay}
-material={wood1}
-/>
-<mesh
-// height of vertical balk + half its depth to offset the centered origin + height offset + full lodge height
-position={
-  new Vector3(-0.19 * 2 - 0.19 * 0.5, 2.2 + 0.01 + innerOffsetHeightIncrement + 0.2, 0)
-}
-scale={new Vector3(1, 1, dimensions.depth + 0.18 * 2)}
-geometry={roofUnderlay}
-material={wood1}
-/>
-<mesh
-// height of vertical balk + half its depth to offset the centered origin + height offset + full lodge height
-position={
-  new Vector3(-0.19 - 0.19 * 0.5, 2.2 + 0.01 + innerOffsetHeightIncrement + 0.2, 0)
-}
-scale={new Vector3(1, 1, dimensions.depth + 0.18 * 2)}
-geometry={roofUnderlay}
-material={wood1}
-/>
-<mesh
-// height of vertical balk + half its depth to offset the centered origin + height offset + full lodge height
-position={
-  new Vector3(0 - 0.19 * 0.5, 2.2 + 0.01 + innerOffsetHeightIncrement + 0.2, 0)
-}
-scale={new Vector3(1, 1, dimensions.depth + 0.18 * 2)}
-geometry={roofUnderlay}
-material={wood1}
-/>
-<mesh
-// height of vertical balk + half its depth to offset the centered origin + height offset + full lodge height
-position={
-  new Vector3(0 - 0.19 * 0.5, 2.2 + 0.01 + innerOffsetHeightIncrement + 0.2, 0)
-}
-scale={new Vector3(1, 1, dimensions.depth + 0.18 * 2)}
-geometry={roofUnderlay}
-material={wood1}
-/>
-<mesh
-// height of vertical balk + half its depth to offset the centered origin + height offset + full lodge height
-position={
-  new Vector3(0.19 - 0.19 * 0.5, 2.2 + 0.01 + innerOffsetHeightIncrement + 0.2, 0)
-}
-scale={new Vector3(1, 1, dimensions.depth + 0.18 * 2)}
-geometry={roofUnderlay}
-material={wood1}
-/>
-<mesh
-// height of vertical balk + half its depth to offset the centered origin + height offset + full lodge height
-position={
-  new Vector3(0.19 * 2 - 0.19 * 0.5, 2.2 + 0.01 + innerOffsetHeightIncrement + 0.2, 0)
-}
-scale={new Vector3(1, 1, dimensions.depth + 0.18 * 2)}
-geometry={roofUnderlay}
-material={wood1}
-/>
-<mesh
-// height of vertical balk + half its depth to offset the centered origin + height offset + full lodge height
-position={
-  new Vector3(0.19 * 3 - 0.19 * 0.5, 2.2 + 0.01 + innerOffsetHeightIncrement + 0.2, 0)
-}
-scale={new Vector3(1, 1, dimensions.depth + 0.18 * 2)}
-geometry={roofUnderlay}
-material={wood1}
-/>
-<mesh
-// height of vertical balk + half its depth to offset the centered origin + height offset + full lodge height
-position={
-  new Vector3(0.19 * 4 - 0.19 * 0.5, 2.2 + 0.01 + innerOffsetHeightIncrement + 0.2, 0)
-}
-scale={new Vector3(1, 1, dimensions.depth + 0.18 * 2)}
-geometry={roofUnderlay}
-material={wood1}
-/>
-<mesh
-// height of vertical balk + half its depth to offset the centered origin + height offset + full lodge height
-position={
-  new Vector3(0.19 * 5 - 0.19 * 0.5, 2.2 + 0.01 + innerOffsetHeightIncrement + 0.2, 0)
-}
-scale={new Vector3(1, 1, dimensions.depth + 0.18 * 2)}
-geometry={roofUnderlay}
-material={wood1}
-/>
-<mesh
-// height of vertical balk + half its depth to offset the centered origin + height offset + full lodge height
-position={
-  new Vector3(0.19 * 6 - 0.19 * 0.5, 2.2 + 0.01 + innerOffsetHeightIncrement + 0.2, 0)
-}
-scale={new Vector3(1, 1, dimensions.depth + 0.18 * 2)}
-geometry={roofUnderlay}
-material={wood1}
-/>
-<mesh
-// height of vertical balk + half its depth to offset the centered origin + height offset + full lodge height
-position={
-  new Vector3(0.19 * 7 - 0.19 * 0.5, 2.2 + 0.01 + innerOffsetHeightIncrement + 0.2, 0)
-}
-scale={new Vector3(1, 1, dimensions.depth + 0.18 * 2)}
-geometry={roofUnderlay}
-material={wood1}
-/>
-<mesh
-// height of vertical balk + half its depth to offset the centered origin + height offset + full lodge height
-position={
-  new Vector3(0.19 * 8 - 0.19 * 0.5, 2.2 + 0.01 + innerOffsetHeightIncrement + 0.2, 0)
-}
-scale={new Vector3(1, 1, dimensions.depth + 0.18 * 2)}
-geometry={roofUnderlay}
-material={wood1}
-/>
-<mesh
-// height of vertical balk + half its depth to offset the centered origin + height offset + full lodge height
-position={
-  new Vector3(0.19 * 9 - 0.19 * 0.5, 2.2 + 0.01 + innerOffsetHeightIncrement + 0.2, 0)
-}
-scale={new Vector3(1, 1, dimensions.depth + 0.18 * 2)}
-geometry={roofUnderlay}
-material={wood1}
-/>
-<mesh
-// height of vertical balk + half its depth to offset the centered origin + height offset + full lodge height
-position={
-  new Vector3(0.19 * 10 - 0.19 * 0.5, 2.2 + 0.01 + innerOffsetHeightIncrement + 0.2, 0)
-}
-scale={new Vector3(1, 1, dimensions.depth + 0.18 * 2)}
-geometry={roofUnderlay}
-material={wood1}
-/>
-<mesh
-// height of vertical balk + half its depth to offset the centered origin + height offset + full lodge height
-position={
-  new Vector3(0.19 * 11 - 0.19 * 0.5, 2.2 + 0.01 + innerOffsetHeightIncrement + 0.2, 0)
-}
-scale={new Vector3(1, 1, dimensions.depth + 0.18 * 2)}
-geometry={roofUnderlay}
-material={wood1}
-/>
-<mesh
-// height of vertical balk + half its depth to offset the centered origin + height offset + full lodge height
-position={
-  new Vector3(0.19 * 12 - 0.19 * 0.5, 2.2 + 0.01 + innerOffsetHeightIncrement + 0.2, 0)
-}
-scale={new Vector3(1, 1, dimensions.depth + 0.18 * 2)}
-geometry={roofUnderlay}
-material={wood1}
-/>
-<mesh
-// height of vertical balk + half its depth to offset the centered origin + height offset + full lodge height
-position={
-  new Vector3(0.19 * 13 - 0.19 * 0.5, 2.2 + 0.01 + innerOffsetHeightIncrement + 0.2, 0)
-}
-scale={new Vector3(1, 1, dimensions.depth + 0.18 * 2)}
-geometry={roofUnderlay}
-material={wood1}
-/>
-<mesh
-// height of vertical balk + half its depth to offset the centered origin + height offset + full lodge height
-position={
-  new Vector3(0.19 * 14 - 0.19 * 0.5, 2.2 + 0.01 + innerOffsetHeightIncrement + 0.2, 0)
-}
-scale={new Vector3(1, 1, dimensions.depth + 0.18 * 2)}
-geometry={roofUnderlay}
-material={wood1}
-/>
-<mesh
-// height of vertical balk + half its depth to offset the centered origin + height offset + full lodge height
-position={
-  new Vector3(0.19 * 15 - 0.19 * 0.5, 2.2 + 0.01 + innerOffsetHeightIncrement + 0.2, 0)
-}
-scale={new Vector3(1, 1, dimensions.depth + 0.18 * 2)}
-geometry={roofUnderlay}
-material={wood1}
-/> */
-// }

@@ -1,5 +1,5 @@
 import { BufferGeometry, Euler, Material, Vector3 } from "three";
-import { useUvAdjustedGeometry } from "../hooks/useUvAdjustedGeometry";
+import { useUvAdjustedGeometryX } from "../hooks/useUvAdjustedGeometryX";
 
 interface HorizontalBalkProps {
   position: Vector3;
@@ -16,7 +16,7 @@ function HorizontalBalk({
   geometry,
   material,
 }: HorizontalBalkProps) {
-  const adjustedGeometry = useUvAdjustedGeometry({
+  const adjustedGeometry = useUvAdjustedGeometryX({
     geometry,
     scale,
   });

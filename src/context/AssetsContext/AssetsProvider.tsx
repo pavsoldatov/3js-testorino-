@@ -20,7 +20,8 @@ import balkNormalMap from "../../assets/textures/texture_wood_normal.jpg?url";
 import balkCornerSrc from "../../assets/models/balk_corner.obj?url";
 import lodgeSrc from "../../assets/models/Lodge_20x200x1000.obj?url";
 import materialsFile from "../../assets/Canopy_Materials.glb?url";
-import roofUnderlaySrc from "../../assets/models/Lodge_20x190x1000_bevel.obj?url"
+import roofUnderlaySrc from "../../assets/models/Lodge_20x190x1000_bevel.obj?url";
+import topLodgeSrc from "../../assets/models/lodge_150x50x1000.obj?url";
 
 export function AssetsProvider({ children }: { children: ReactNode }) {
   const materialsGltf = useGLTF(materialsFile);
@@ -28,12 +29,12 @@ export function AssetsProvider({ children }: { children: ReactNode }) {
   const balkFile = useLoader(OBJLoader, verticalBalkSrc); // vertical
   const balkCornerFIle = useLoader(OBJLoader, balkCornerSrc); // vertical balk corner
   const horizontalBalkFile = useLoader(OBJLoader, horizontalBalkSrc); // horizontal
-  const lodgeFile = useLoader(OBJLoader, lodgeSrc);
-  const roofUnderlayFile = useLoader(OBJLoader, roofUnderlaySrc);
+  const lodgeFile = useLoader(OBJLoader, lodgeSrc); // an outer rim around the structure
+  const roofUnderlayFile = useLoader(OBJLoader, roofUnderlaySrc); // roof underlay attached to the outer rim
+  const topLodgeFile = useLoader(OBJLoader, topLodgeSrc); // lodges underneath the roof overlay placed on top of horizontal balks
+
   const texture = useLoader(TextureLoader, balkTextureSrc);
   const normalMap = useLoader(TextureLoader, balkNormalMap);
-
-  console.log(materialsGltf.materials);
 
   const wood1 = useMemo(() => {
     const woodMaterial = materialsGltf.materials["wood.001"];
@@ -45,30 +46,32 @@ export function AssetsProvider({ children }: { children: ReactNode }) {
     texture.wrapS = texture.wrapT = RepeatWrapping;
     normalMap.wrapS = normalMap.wrapT = RepeatWrapping;
 
-    return new MeshPhysicalMaterial({
+    const material = new MeshPhysicalMaterial({
       map: texture,
       normalMap: normalMap,
-      metalness: 0.2,
-      roughness: 0.4,
+      roughness: 0.25,
       clearcoat: 0.75, // sheen
       clearcoatRoughness: 0.5,
     });
-  }, [texture, normalMap]);
+    
+    // Reminder: toggle in gui
+    material.onBeforeCompile = applyWoodShader;
 
-  wood2.onBeforeCompile = applyWoodShader;
+    return material;
+  }, [texture, normalMap]);
 
   const verticalBalk = useMemo(() => {
     if (balkFile.children[0] instanceof Mesh) {
       return balkFile.children[0].geometry;
     }
-    throw new Error("Balk model does not contain a Mesh");
+    throw new Error("Vertical balk model does not contain a Mesh");
   }, [balkFile]);
 
   const horizontalBalk = useMemo(() => {
     if (horizontalBalkFile.children[0] instanceof Mesh) {
       return centerGeometry(horizontalBalkFile.children[0].geometry);
     }
-    throw new Error("Balk model does not contain a Mesh");
+    throw new Error("Horizontal balk model does not contain a Mesh");
   }, [horizontalBalkFile]);
 
   const verticalBalkCorner = useMemo(() => {
@@ -80,21 +83,24 @@ export function AssetsProvider({ children }: { children: ReactNode }) {
 
   const lodge = useMemo(() => {
     if (lodgeFile.children[0] instanceof Mesh) {
-
-      console.log(lodgeFile.children[0].geometry)
       return centerGeometry(lodgeFile.children[0].geometry);
     }
-    throw new Error("Corner model does not contain a Mesh");
+    throw new Error("Lodge model does not contain a Mesh");
   }, [lodgeFile]);
 
   const roofUnderlay = useMemo(() => {
     if (roofUnderlayFile.children[0] instanceof Mesh) {
-
-      console.log(roofUnderlayFile.children[0].geometry)
       return centerGeometry(roofUnderlayFile.children[0].geometry);
     }
-    throw new Error("Corner model does not contain a Mesh");
+    throw new Error("Roof underlay model does not contain a Mesh");
   }, [roofUnderlayFile]);
+
+  const topLodge = useMemo(() => {
+    if (topLodgeFile.children[0] instanceof Mesh) {
+      return centerGeometry(topLodgeFile.children[0].geometry);
+    }
+    throw new Error("Roof underlay model does not contain a Mesh");
+  }, [topLodgeFile]);
 
   return (
     <AssetsContext.Provider
@@ -104,6 +110,7 @@ export function AssetsProvider({ children }: { children: ReactNode }) {
         verticalBalkCorner,
         lodge,
         roofUnderlay,
+        topLodge,
         wood1,
         wood2,
       }}

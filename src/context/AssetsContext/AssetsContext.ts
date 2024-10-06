@@ -7,6 +7,7 @@ export interface AssetsContextType {
   verticalBalkCorner?: BufferGeometry;
   lodge?: BufferGeometry;
   roofUnderlay?: BufferGeometry;
+  topLodge?: BufferGeometry,
   wood1?: Material;
   wood2?: MeshPhysicalMaterial;
 }

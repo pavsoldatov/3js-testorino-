@@ -1,5 +1,5 @@
 import { BufferGeometry, Euler, Material, Vector3 } from "three";
-import { useUvAdjustedGeometry } from "../hooks/useUvAdjustedGeometry";
+import { useUvAdjustedGeometryX } from "../hooks/useUvAdjustedGeometryX";
 
 interface LodgeProps {
   index: number;
@@ -11,17 +11,15 @@ interface LodgeProps {
 }
 
 function Lodge({
-  index,
   position,
   rotation,
   scale,
   geometry,
   material,
 }: LodgeProps) {
-  const adjustedGeometry = useUvAdjustedGeometry({
+  const adjustedGeometry = useUvAdjustedGeometryX({
     geometry,
     scale,
-    offset: Math.random() * index * Math.random(),
   });
 
   return (
