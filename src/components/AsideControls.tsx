@@ -24,7 +24,7 @@ function AsideControls() {
         padding: "10px",
       }}
     >
-      <h2>Balk dimensionsuration</h2>
+      <h2>Dimensions</h2>
       <div style={{ paddingBlock: "4px" }}></div>
       <div style={{ paddingBlock: "0.5rem" }}></div>
       <div style={{ display: "flex", alignItems: "center", lineHeight: "1.8" }}>

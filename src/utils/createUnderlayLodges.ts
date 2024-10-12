@@ -49,18 +49,5 @@ export function createUnderlayLodges(
     });
   }
 
-  //   // Along X-axis
-  //   lodges.push({
-  //     position: new Vector3(0, yPos, depth * -0.5),
-  //     scale: new Vector3(adjustedWidth + 0.16 * 2 + 0.15, 1, 1), // adjusted width + inner ovehang + vertical balk width/depth
-  //     rotation: new Euler(0, 0, 0),
-  //   });
-  //   lodges.push({
-  //     position: new Vector3(0, yPos, depth * 0.5),
-  //     scale: new Vector3(adjustedWidth + 0.16 * 2 + 0.15, 1, 1),
-  //     rotation: new Euler(0, 0, 0),
-  //   });
-
-  console.log("limit is ", lodges.length);
   return lodges;
 }

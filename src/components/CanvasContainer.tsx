@@ -10,9 +10,9 @@ interface CanvasContainerProps extends CanvasProps {
 function CanvasContainer({ children, ...rest }: CanvasContainerProps) {
   return (
     <Canvas
-      gl={{ antialias: true }}
+      gl={{ antialias: true, pixelRatio: 2.0 }}
       shadows={true}
-      camera={{ position: [7, 6, 8], fov: 60, near: 0.1, far: 800 }}
+      camera={{ position: [7, 6, 8], fov: 60, near: 0.1, far: 1000 }}
       {...rest}
     >
       {children}

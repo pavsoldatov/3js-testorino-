@@ -4,12 +4,14 @@ import { Environment } from "@react-three/drei";
 
 function Skybox() {
   return (
-    <Environment
-      preset="sunset"
-      environmentIntensity={0.9}
-      background
-      backgroundBlurriness={1}
-    />
+    <>
+      <Environment
+        preset="sunset"
+        environmentIntensity={0.9}
+        background
+        backgroundBlurriness={1}
+      />
+    </>
   );
 }
 
