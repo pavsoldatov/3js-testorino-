@@ -1,16 +1,17 @@
 import { Environment } from "@react-three/drei";
 
-import exrSrc from "../assets/skybox/venetian_crossroads_1k.exr?url";
+// import file from "../assets/skybox/venetian_crossroads_1k.hdr?url";
 
 function Skybox() {
   return (
-    <Environment
-      backgroundBlurriness={1}
-      environmentIntensity={0.4}
-      backgroundIntensity={0.5}
-      background
-      files={exrSrc}
-    />
+    <>
+      <Environment
+        preset="sunset"
+        environmentIntensity={0.9}
+        background
+        backgroundBlurriness={1}
+      />
+    </>
   );
 }
 

@@ -1,19 +1,36 @@
-import Balk from "./Balk";
 import GroundPlane from "./components/GroundPlane";
-import CanvasContainer from "./components/Canvas";
-import { Suspense } from "react";
+import CanvasContainer from "./components/CanvasContainer";
 import Skybox from "./components/Skybox";
+import { CanopyGroup } from "./components/CanopyGroup";
+import AsideControls from "./components/AsideControls";
+import { AssetsProvider } from "./context/AssetsContext/AssetsProvider";
+import { Suspense } from "react";
+import { AsideControlsGui } from "./components/AsideControlsGui";
 
 function App() {
   return (
-    <CanvasContainer>
-      <Suspense fallback={null}>
-        <Skybox />
-        <GroundPlane />
-        <Balk />
-      </Suspense>
-      <axesHelper args={[5]} />;
-    </CanvasContainer>
+    <>
+      <div
+        style={{
+          display: "flex",
+          width: "100vw",
+          height: "100vh",
+        }}
+      >
+        <AsideControls />
+        <CanvasContainer>
+          <Skybox />
+          <GroundPlane />
+          <Suspense>
+            <AssetsProvider>
+              <CanopyGroup />
+            </AssetsProvider>
+          </Suspense>
+          <axesHelper args={[5]} />
+        </CanvasContainer>
+      </div>
+      <AsideControlsGui />
+    </>
   );
 }
 
