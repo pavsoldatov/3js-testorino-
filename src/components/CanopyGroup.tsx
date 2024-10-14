@@ -1,6 +1,5 @@
 import { useMemo } from "react";
 import { Euler, Vector3 } from "three";
-import { useDimensions } from "../hooks/useDimensions";
 import { useAssets } from "../hooks/useAssets";
 import { createBalksAndCorners } from "../utils/createBalksAndCorners";
 import { BUFFERED_BALKS_LIMIT, BUFFERED_CORNERS_LIMIT } from "../constants";
@@ -12,6 +11,8 @@ import { RoofUnderlayLodges } from "./RoofUnderlayLodges";
 import RoofUnderlays from "./RoofUnderlays";
 import { RoofUnderlaySideLodges } from "./RoofUnderlaySideLodges";
 import { RuberoidRoof } from "./RuberoidRoof";
+import { useDimensionsStore } from "../store/dimensionsStore";
+import { useGeometryStore } from "../store/geometryStore";
 import { RoofEdges } from "./RoofEdges";
 
 export interface BalkInstance {
@@ -21,7 +22,7 @@ export interface BalkInstance {
 
 export type CornerInstance = BalkInstance;
 
-export function BuildingGroup() {
+export function CanopyGroup() {
   const {
     verticalBalk,
     horizontalBalk,
@@ -35,17 +36,17 @@ export function BuildingGroup() {
     roofEdgeStraight,
     roofEdgeCornerStraight,
     roofEdgeCornerRounded,
-    ruberoid1,
-    ruberoid2,
-    wood1,
-    wood2,
-    roofEdgeMaterials,
+    ruberoids,
+    woods,
+    metals,
   } = useAssets();
+  const { width, depth } = useDimensionsStore();
 
-  const { dimensions } = useDimensions();
-  const { balks, corners } = useMemo(() => {
-    return createBalksAndCorners(dimensions.width, dimensions.depth);
-  }, [dimensions.depth, dimensions.width]);
+  const { balks, corners } = useMemo(
+    () => createBalksAndCorners(width, depth),
+    [depth, width]
+  );
+  const { selectedRoofEdgeGeometryKey } = useGeometryStore();
 
   const verticalBalkWidth = 0.15;
   const lodgeDepth = 0.02;
@@ -57,62 +58,55 @@ export function BuildingGroup() {
     <>
       <group>
         <RoofEdges
-          width={dimensions.width}
-          depth={dimensions.depth}
-          edgeGeometry={roofEdgeRounded}
-          cornerGeometry={roofEdgeCornerRounded}
-          materials={roofEdgeMaterials}
+          width={width}
+          depth={depth}
+          edgeGeometry={
+            selectedRoofEdgeGeometryKey === "rounded"
+              ? roofEdgeRounded
+              : roofEdgeStraight
+          }
+          cornerGeometry={
+            selectedRoofEdgeGeometryKey === "rounded"
+              ? roofEdgeCornerRounded
+              : roofEdgeCornerStraight
+          }
+          materials={metals}
         />
 
-        {/* <RoofEdges
-          width={dimensions.width}
-          depth={dimensions.depth}
-          geometry={roofEdgeRounded}
-          cornerGeometry={roofEdgeCornerRounded}
-          materials={roofEdgeMaterials}
-        /> */}
-
-        {/* <mesh
-          geometry={roofEdgeCornerStraight}
-          position={
-            new Vector3(-dimensions.depth + 0.35, 2.51 + 0.0575, dimensions.depth * -0.5 - 0.175)
-          }
-          scale={new Vector3(1.34, 1.34, 1.34)}
-        /> */}
-
         <RuberoidRoof
-          width={dimensions.width}
-          depth={dimensions.depth}
+          width={width}
+          depth={depth}
           geometry={roof}
-          material={ruberoid1}
+          materials={ruberoids}
           overhangOuter={overhangOuter}
         />
 
         <RoofUnderlaySideLodges
-          width={dimensions.width}
-          depth={dimensions.depth}
+          width={width}
+          depth={depth}
           geometry={roofUnderlaySideLodge}
-          material={wood2}
+          materials={woods}
         />
 
         <RoofUnderlayLodges
-          width={dimensions.width}
-          depth={dimensions.depth}
+          width={width}
+          depth={depth}
           geometry={roofUnderlayLodge}
-          material={wood2}
+          materials={woods}
         />
 
         <RoofUnderlays
-          width={dimensions.width + overhangInner * 2}
-          depth={dimensions.depth + overhangInner * 2}
+          width={width + overhangInner * 2}
+          depth={depth + overhangInner * 2}
           geometry={roofUnderlay}
-          material={wood2}
+          materials={woods}
         />
 
         <Lodges
-          dimensions={dimensions}
+          width={width}
+          depth={depth}
           geometry={lodge}
-          material={wood2}
+          materials={woods}
           verticalBalkWidth={verticalBalkWidth}
           lodgeDepth={lodgeDepth}
           innerOffsetHeightIncrement={innerOffsetHeightIncrement}
@@ -121,23 +115,23 @@ export function BuildingGroup() {
         />
 
         <HorizontalBalks
-          width={dimensions.width}
-          depth={dimensions.depth}
+          width={width}
+          depth={depth}
           geometry={horizontalBalk}
-          material={wood2}
+          materials={woods}
         />
 
         <VerticalBalks
           balks={balks}
           geometry={verticalBalk}
-          material={wood2}
+          materials={woods}
           limit={BUFFERED_BALKS_LIMIT}
         />
 
         <VerticalBalkCorners
           corners={corners}
           geometry={verticalBalkCorner}
-          material={wood2}
+          materials={woods}
           limit={BUFFERED_CORNERS_LIMIT}
         />
       </group>

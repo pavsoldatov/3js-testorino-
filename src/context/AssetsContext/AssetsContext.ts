@@ -1,5 +1,22 @@
 import { createContext } from "react";
-import { BufferGeometry, Material, MeshPhysicalMaterial } from "three";
+import { BufferGeometry, Material } from "three";
+
+export interface Metals {
+  whiteMetal: Material;
+  silverMetal: Material;
+  blackMetal: Material;
+}
+
+export interface Ruberoids {
+  ruberoid1: Material;
+  ruberoid2: Material;
+}
+
+export interface Woods {
+  wood1: Material;
+  wood2: Material;
+  wood3: Material;
+}
 
 export interface AssetsContextType {
   verticalBalk?: BufferGeometry;
@@ -15,11 +32,9 @@ export interface AssetsContextType {
   roofEdgeCornerStraight?: BufferGeometry;
   roofEdgeCornerRounded?: BufferGeometry;
 
-  ruberoid1?: MeshPhysicalMaterial;
-  ruberoid2?: MeshPhysicalMaterial;
-  wood1?: Material;
-  wood2?: MeshPhysicalMaterial;
-  roofEdgeMaterials?: { [key: string]: Material };
+  ruberoids?: Ruberoids;
+  woods?: Woods;
+  metals?: Metals;
 }
 
 export const AssetsContext = createContext<AssetsContextType | undefined>(

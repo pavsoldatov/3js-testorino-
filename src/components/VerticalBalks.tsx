@@ -1,27 +1,31 @@
 import { useRef } from "react";
 import { Instances, Instance } from "@react-three/drei";
-import { InstancedMesh, BufferGeometry, Material } from "three";
-import { BalkInstance } from "./BuildingGroup";
+import { InstancedMesh, BufferGeometry } from "three";
+import { BalkInstance } from "./CanopyGroup";
+import { Woods } from "../context/AssetsContext/AssetsContext";
+import { useMaterialStore } from "../store/materialStore";
 
 interface VerticalBalksProps {
   balks: BalkInstance[];
   geometry?: BufferGeometry;
-  material?: Material | Material[];
+  materials?: Woods;
   limit: number;
 }
 
 export function VerticalBalks({
   balks,
   geometry,
-  material,
+  materials,
   limit,
 }: VerticalBalksProps) {
   const balkRef = useRef<InstancedMesh>(null);
+  const key = useMaterialStore((state) => state.selectedWoodMaterialKey);
+  const selectedMaterial = materials?.[key];
 
   return (
     <Instances
       geometry={geometry}
-      material={material}
+      material={selectedMaterial}
       limit={limit}
       ref={balkRef}
       frustumCulled={false}

@@ -1,20 +1,22 @@
-import { BufferGeometry, Material } from "three";
+import { BufferGeometry } from "three";
 import HorizontalBalk from "./HorizontalBalk";
 import { useMemo } from "react";
 import { createHorizontalBalks } from "../utils/createHorizontalBalks";
+import { Woods } from "../context/AssetsContext/AssetsContext";
+import { useMaterialStore } from "../store/materialStore";
 
 interface HorizontalBalksProps {
   width: number;
   depth: number;
   geometry?: BufferGeometry;
-  material?: Material | Material[];
+  materials?: Woods;
 }
 
 export function HorizontalBalks({
   width,
   depth,
   geometry,
-  material,
+  materials,
 }: HorizontalBalksProps) {
   const balkWidth = 0.15;
   const verticalBalkHeight = 2.20001;
@@ -24,6 +26,9 @@ export function HorizontalBalks({
     [depth, width]
   );
 
+  const key = useMaterialStore((state) => state.selectedWoodMaterialKey);
+  const selectedMaterial = materials?.[key];
+
   return (
     <>
       {balks.map((balk, index) => (
@@ -32,7 +37,7 @@ export function HorizontalBalks({
           position={balk.position}
           rotation={balk.rotation}
           geometry={geometry}
-          material={material}
+          material={selectedMaterial}
           scale={balk.scale}
         />
       ))}

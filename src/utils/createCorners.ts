@@ -1,5 +1,5 @@
 import { Euler, Vector3 } from "three";
-import { CornerInstance } from "../components/BuildingGroup";
+import { CornerInstance } from "../components/CanopyGroup";
 import { adjustPosition, EPSILON } from "./createBalks";
 
 /**

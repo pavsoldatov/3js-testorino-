@@ -1,15 +1,15 @@
 import { Box } from "@react-three/drei";
-import { useDimensions } from "../hooks/useDimensions";
 import { DoubleSide, Vector3 } from "three";
+import { useDimensionsStore } from "../store/dimensionsStore";
 
 function GroundPlane() {
-  const { dimensions } = useDimensions();
+  const { width, depth } = useDimensionsStore();
   const thickness = 0.1;
 
   return (
     <Box
       position={[0, -thickness * 0.5, 0]}
-      args={[dimensions.width, thickness, dimensions.depth]}
+      args={[width, thickness, depth]}
       receiveShadow
       scale={new Vector3(1, 1, 1)}
     >

@@ -2,29 +2,33 @@ import { BufferGeometry, Material, Vector3 } from "three";
 import { createRoofUnderlaySideLodges } from "../utils/createRoofUnderlaySideLodges";
 import { useMemo } from "react";
 import { Instance, Instances } from "@react-three/drei";
+import { Woods } from "../context/AssetsContext/AssetsContext";
+import { useMaterialStore } from "../store/materialStore";
 
 interface RoofUnderlaySideLodgesProps {
   width: number;
   depth: number;
-  material?: Material;
+  materials?: Woods;
   geometry?: BufferGeometry;
 }
 
 export function RoofUnderlaySideLodges({
   width,
   depth,
-  material,
+  materials,
   geometry,
 }: RoofUnderlaySideLodgesProps) {
   const roofUnderlaySideLodges = useMemo(
     () => createRoofUnderlaySideLodges(width, depth),
     [depth, width]
   );
+  const key = useMaterialStore((state) => state.selectedWoodMaterialKey);
+  const selectedMaterial = materials?.[key];
 
   return (
     <Instances
       geometry={geometry}
-      material={material}
+      material={selectedMaterial}
       limit={100}
       frustumCulled={false}
     >

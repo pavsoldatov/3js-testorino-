@@ -1,27 +1,31 @@
-import React from "react";
+import { useRef } from "react";
 import { Instances, Instance } from "@react-three/drei";
-import { InstancedMesh, BufferGeometry, Material } from "three";
-import { CornerInstance } from "./BuildingGroup";
+import { InstancedMesh, BufferGeometry } from "three";
+import { CornerInstance } from "./CanopyGroup";
+import { Woods } from "../context/AssetsContext/AssetsContext";
+import { useMaterialStore } from "../store/materialStore";
 
 interface HorizontalBalkCornersProps {
   corners: CornerInstance[];
   geometry?: BufferGeometry;
-  material?: Material | Material[];
+  materials?: Woods;
   limit: number;
 }
 
 export function VerticalBalkCorners({
   corners,
   geometry,
-  material,
+  materials,
   limit,
 }: HorizontalBalkCornersProps) {
-  const cornerRef = React.useRef<InstancedMesh>(null);
+  const cornerRef = useRef<InstancedMesh>(null);
+  const key = useMaterialStore((state) => state.selectedWoodMaterialKey);
+  const selectedMaterial = materials?.[key];
 
   return (
     <Instances
       geometry={geometry}
-      material={material}
+      material={selectedMaterial}
       limit={limit}
       ref={cornerRef}
       frustumCulled={false}

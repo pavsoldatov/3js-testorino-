@@ -1,4 +1,4 @@
-import { BalkInstance, CornerInstance } from "../components/BuildingGroup";
+import { BalkInstance, CornerInstance } from "../components/CanopyGroup";
 import {
   calculateNumBalks,
   createBalks,

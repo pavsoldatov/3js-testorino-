@@ -1,12 +1,5 @@
-import {
-  BufferGeometry,
-  Euler,
-  Material,
-  Mesh,
-  MeshPhysicalMaterial,
-  Vector3,
-} from "three";
-import { useEffect, useMemo, useRef } from "react";
+import { BufferGeometry, Euler, Material, Mesh, Vector3 } from "three";
+import { forwardRef } from "react";
 
 interface RoofEdgeCornerProps {
   position: Vector3;
@@ -16,36 +9,17 @@ interface RoofEdgeCornerProps {
   material?: Material;
 }
 
-export const RoofEdgeCorner = ({
-  position,
-  rotation,
-  scale,
-  geometry,
-  material,
-}: RoofEdgeCornerProps) => {
-  const meshRef = useRef<Mesh>(null);
-
-  const mat = useMemo(() => {
-    return material?.clone() as MeshPhysicalMaterial;
-  }, [material]);
-
-  useEffect(() => {
-    mat.normalMap = null;
-    mat.needsUpdate = true;
-
-    return () => {
-      if (mat) mat.dispose();
-    };
-  }, [mat]);
-
-  return (
-    <mesh
-      ref={meshRef}
-      geometry={geometry}
-      material={mat}
-      position={position}
-      scale={scale}
-      rotation={rotation}
-    />
-  );
-};
+export const RoofEdgeCorner = forwardRef<Mesh, RoofEdgeCornerProps>(
+  ({ geometry, material, position, rotation, scale }, ref) => {
+    return (
+      <mesh
+        ref={ref}
+        geometry={geometry}
+        material={material}
+        position={position}
+        scale={scale}
+        rotation={rotation}
+      />
+    );
+  }
+);

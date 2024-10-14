@@ -8,18 +8,12 @@ import {
   SRGBColorSpace,
   RepeatWrapping,
   MeshPhysicalMaterial,
-  Material,
   MeshStandardMaterial,
-  Vector2,
-  LinearFilter,
-  LinearMipmapLinearFilter,
-  LinearSRGBColorSpace,
-  NearestMipMapNearestFilter,
-  NearestFilter,
 } from "three";
-import { AssetsContext } from "./AssetsContext";
+import { AssetsContext, Metals, Ruberoids, Woods } from "./AssetsContext";
 import { applyWoodShader } from "../../shaders/woodShader";
 import { centerGeometry } from "../../utils/centerGeometry";
+import { useMaterialStore } from "../../store/materialStore";
 
 import verticalBalkSrc from "../../assets/models/balk_150x150x2200.obj?url";
 import horizontalBalkSrc from "../../assets/models/balk_150x150x1000.obj?url";
@@ -33,18 +27,15 @@ import roofEdgeRoundedSrc from "../../assets/models/roof_edge/roof_edge_1m.obj?u
 import roofEdgeStraightSrc from "../../assets/models/roof_edge/roof_edge_1m2.obj?url";
 import roofEdgeCornerStraightSrc from "../../assets/models/roof_edge/roof_edge_corner2.obj?url";
 import roofEdgeCornerRoundedSrc from "../../assets/models/roof_edge/roof_edge_corner.obj?url";
-// import perimeterClosedSrc from "../../assets/models/profile_canopy_perimeter_closed.obj?url";
 
 import materialsFile from "../../assets/Canopy_Materials.glb?url";
-import roofEdgeMaterialsFile from "../../assets/models/roof_edge/roof_edge_materials.gltf?url";
+import roofEdgeMaterialsFile from "../../assets/models/roof_edge/Edges.gltf?url";
 
 import balkTextureSrc from "../../assets/textures/texture_wood.jpg?url";
 import balkNormalMap from "../../assets/textures/texture_wood_normal.jpg?url";
 import ruberoidTextureSrc from "../../assets/textures/roof_texture.jpg?url";
 import ruberoidNormalMap1Src from "../../assets/textures/roof_texture_normal_map.jpg?url";
 import ruberoidNormalMap2Src from "../../assets/textures/roof_texture_normal_map22.jpg?url";
-import roofEdgeStraightNormalSrc from "../../assets/models/roof_edge/T_RoofEdge_Straight_Normal.png?url";
-import roofEdgeRoundedNormalSrc from "../../assets/models/roof_edge/T_RoofEdge_Round_R20_Normal.png?url";
 
 export function AssetsProvider({ children }: { children: ReactNode }) {
   const materialsGltf = useGLTF(materialsFile);
@@ -78,41 +69,14 @@ export function AssetsProvider({ children }: { children: ReactNode }) {
   const ruberoidNormalMap1 = useLoader(TextureLoader, ruberoidNormalMap1Src);
   const ruberoidNormalMap2 = useLoader(TextureLoader, ruberoidNormalMap2Src);
 
-  const roofEdgeCornerStraightNormal = useLoader(
-    TextureLoader,
-    roofEdgeStraightNormalSrc
-  );
-  const roofEdgeCornerRoundedNormal = useLoader(
-    TextureLoader,
-    roofEdgeRoundedNormalSrc
-  );
-
-  const wood1 = useMemo(() => {
-    const woodMaterial = materialsGltf.materials["wood.001"];
-    return woodMaterial.clone();
-  }, [materialsGltf.materials]);
-
-  const roofEdgeMaterials = useMemo(() => {
-    const extractedMaterials: { [key: string]: Material } = {};
-    Object.keys(roofEdgeMaterialsGltf.materials).forEach((key) => {
-      const cloned = roofEdgeMaterialsGltf.materials[
-        key
-      ].clone() as MeshStandardMaterial;
-
-      // cloned.normalMap = roofEdgeCornerRoundedNormal;
-      // cloned.normalMap.wrapS = cloned.normalMap.wrapT = RepeatWrapping;
-      // cloned.normalMap.needsUpdate = true;
-      extractedMaterials[key] = cloned;
-    });
-    return extractedMaterials;
-  }, [roofEdgeMaterialsGltf.materials]);
-
-  const wood2 = useMemo(() => {
+  const woods = useMemo<Woods>(() => {
     texture.colorSpace = SRGBColorSpace;
     texture.wrapS = texture.wrapT = RepeatWrapping;
     normalMap.wrapS = normalMap.wrapT = RepeatWrapping;
 
-    const material = new MeshPhysicalMaterial({
+    const wood1 = materialsGltf.materials["wood.001"].clone();
+
+    const wood2 = new MeshPhysicalMaterial({
       map: texture,
       normalMap: normalMap,
       roughness: 0.25,
@@ -120,41 +84,73 @@ export function AssetsProvider({ children }: { children: ReactNode }) {
       clearcoatRoughness: 0.5,
     });
 
-    // // Reminder: toggle in gui
-    material.onBeforeCompile = applyWoodShader;
+    const wood3 = wood2.clone();
+    wood3.onBeforeCompile = applyWoodShader;
 
-    return material;
-  }, [texture, normalMap]);
+    return {
+      wood1: wood1 as MeshPhysicalMaterial,
+      wood2: wood2, // wood2 without shader
+      wood3: wood3, // wood2 with shader applied
+    };
+  }, [materialsGltf, texture, normalMap]);
 
-  const ruberoid1 = useMemo(() => {
-    ruberoidTexture.colorSpace = SRGBColorSpace;
-    ruberoidTexture.wrapS = ruberoidTexture.wrapT = RepeatWrapping;
-    ruberoidNormalMap1.wrapS = ruberoidNormalMap1.wrapT = RepeatWrapping;
+  const metals = useMemo<Metals>(() => {
+    const materials = roofEdgeMaterialsGltf.materials;
+    const extractedMetals: Partial<Metals> = {};
 
-    const material = new MeshPhysicalMaterial({
-      map: ruberoidTexture,
-      normalMap: ruberoidNormalMap1,
-      metalness: 1.7,
-      roughness: 0.7,
+    Object.entries(materials).forEach(([key, material]) => {
+      const clonedMaterial = material.clone() as MeshStandardMaterial;
+
+      switch (key) {
+        case "M_RoofEdge_1":
+          extractedMetals.whiteMetal = clonedMaterial;
+          break;
+        case "M_RoofEdge_2":
+          extractedMetals.silverMetal = clonedMaterial;
+          break;
+        case "M_RoofEdge_3":
+          extractedMetals.blackMetal = clonedMaterial;
+          break;
+        default:
+          console.warn(`Unexpected material key: ${key}`);
+          break;
+      }
     });
 
-    return material;
-  }, [ruberoidNormalMap1, ruberoidTexture]);
+    return extractedMetals as Metals;
+  }, [roofEdgeMaterialsGltf.materials]);
 
-  const ruberoid2 = useMemo(() => {
+  const roofMetalness = useMaterialStore((state) => state.roofMetalness);
+  const roofRoughness = useMaterialStore((state) => state.roofRoughness);
+
+  const ruberoids = useMemo<Ruberoids>(() => {
     ruberoidTexture.colorSpace = SRGBColorSpace;
     ruberoidTexture.wrapS = ruberoidTexture.wrapT = RepeatWrapping;
+
+    ruberoidNormalMap1.wrapS = ruberoidNormalMap1.wrapT = RepeatWrapping;
     ruberoidNormalMap2.wrapS = ruberoidNormalMap2.wrapT = RepeatWrapping;
 
-    const material = new MeshPhysicalMaterial({
-      map: ruberoidTexture,
-      normalMap: ruberoidNormalMap2,
-      metalness: 1.7,
-      roughness: 0.7,
-    });
-
-    return material;
-  }, [ruberoidNormalMap2, ruberoidTexture]);
+    return {
+      ruberoid1: new MeshPhysicalMaterial({
+        map: ruberoidTexture,
+        normalMap: ruberoidNormalMap1,
+        metalness: roofMetalness,
+        roughness: roofRoughness,
+      }),
+      ruberoid2: new MeshPhysicalMaterial({
+        map: ruberoidTexture,
+        normalMap: ruberoidNormalMap2,
+        metalness: roofMetalness,
+        roughness: roofRoughness,
+      }),
+    };
+  }, [
+    ruberoidTexture,
+    ruberoidNormalMap1,
+    ruberoidNormalMap2,
+    roofMetalness,
+    roofRoughness,
+  ]);
 
   const verticalBalk = useMemo(() => {
     if (balkFile.children[0] instanceof Mesh) {
@@ -257,11 +253,9 @@ export function AssetsProvider({ children }: { children: ReactNode }) {
         roofEdgeRounded,
         roofEdgeCornerStraight,
         roofEdgeCornerRounded,
-        ruberoid1,
-        ruberoid2,
-        wood1,
-        wood2,
-        roofEdgeMaterials,
+        ruberoids,
+        woods,
+        metals,
       }}
     >
       {children}

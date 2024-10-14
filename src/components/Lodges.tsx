@@ -1,11 +1,14 @@
-import { BufferGeometry, Material } from "three";
+import { BufferGeometry } from "three";
 import Lodge from "./Lodge";
 import { createLodges } from "../utils/createLodges";
+import { Woods } from "../context/AssetsContext/AssetsContext";
+import { useMaterialStore } from "../store/materialStore";
 
 interface LodgesProps {
-  dimensions: { width: number; depth: number };
+  width: number;
+  depth: number;
   geometry?: BufferGeometry;
-  material?: Material;
+  materials?: Woods;
   verticalBalkWidth: number;
   lodgeDepth: number;
   innerOffsetHeightIncrement: number;
@@ -14,9 +17,10 @@ interface LodgesProps {
 }
 
 export function Lodges({
-  dimensions,
+  width,
+  depth,
   geometry,
-  material,
+  materials,
   verticalBalkWidth,
   lodgeDepth,
   innerOffsetHeightIncrement,
@@ -24,14 +28,16 @@ export function Lodges({
   overhangOuter,
 }: LodgesProps) {
   const lodges = createLodges({
-    width: dimensions.width,
-    depth: dimensions.depth,
+    width,
+    depth,
     verticalBalkWidth,
     lodgeDepth,
     innerOffsetHeightIncrement,
     overhangInner,
     overhangOuter,
   });
+  const key = useMaterialStore((state) => state.selectedWoodMaterialKey);
+  const selectedMaterial = materials?.[key];
   return (
     <>
       {lodges.map((part, index) => (
@@ -42,7 +48,7 @@ export function Lodges({
           rotation={part.rotation}
           scale={part.scale}
           geometry={geometry}
-          material={material}
+          material={selectedMaterial}
         />
       ))}
     </>
