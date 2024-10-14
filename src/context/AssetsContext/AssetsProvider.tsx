@@ -15,27 +15,27 @@ import { applyWoodShader } from "../../shaders/woodShader";
 import { centerGeometry } from "../../utils/centerGeometry";
 import { useMaterialStore } from "../../store/materialStore";
 
-import verticalBalkSrc from "../../assets/models/balk_150x150x2200.obj?url";
-import horizontalBalkSrc from "../../assets/models/balk_150x150x1000.obj?url";
-import balkCornerSrc from "../../assets/models/balk_corner.obj?url";
-import lodgeSrc from "../../assets/models/Lodge_20x200x1000.obj?url";
-import roofUnderlaySrc from "../../assets/models/Lodge_20x190x1000_bevel.obj?url";
-import roofUnderlayLodgeSrc from "../../assets/models/lodge_150x50x1000.obj?url";
-import roofUnderlaySideLodgeSrc from "../../assets/models/lodge_150x50x200.obj?url";
-import roofSrc from "../../assets/models/ruberoid_1000x1000x2.obj?url";
-import roofEdgeRoundedSrc from "../../assets/models/roof_edge/roof_edge_1m.obj?url";
-import roofEdgeStraightSrc from "../../assets/models/roof_edge/roof_edge_1m2.obj?url";
-import roofEdgeCornerStraightSrc from "../../assets/models/roof_edge/roof_edge_corner2.obj?url";
-import roofEdgeCornerRoundedSrc from "../../assets/models/roof_edge/roof_edge_corner.obj?url";
+import verticalBalkSrc from "/models/balk_150x150x2200.obj?url";
+import horizontalBalkSrc from "/models/balk_150x150x1000.obj?url";
+import balkCornerSrc from "/models/balk_corner.obj?url";
+import lodgeSrc from "/models/Lodge_20x200x1000.obj?url";
+import roofUnderlaySrc from "/models/Lodge_20x190x1000_bevel.obj?url";
+import roofUnderlayLodgeSrc from "/models/lodge_150x50x1000.obj?url";
+import roofUnderlaySideLodgeSrc from "/models/lodge_150x50x200.obj?url";
+import roofSrc from "/models/ruberoid_1000x1000x2.obj?url";
+import roofEdgeRoundedSrc from "/models/roof_edge/roof_edge_1m.obj?url";
+import roofEdgeStraightSrc from "/models/roof_edge/roof_edge_1m2.obj?url";
+import roofEdgeCornerStraightSrc from "/models/roof_edge/roof_edge_corner2.obj?url";
+import roofEdgeCornerRoundedSrc from "/models/roof_edge/roof_edge_corner.obj?url";
 
-import materialsFile from "../../assets/Canopy_Materials.glb?url";
-import roofEdgeMaterialsFile from "../../assets/models/roof_edge/Edges.gltf?url";
+import materialsFile from "/Canopy_Materials.glb?url";
+import roofEdgeMaterialsFile from "/models/roof_edge/Edges.gltf?url";
 
-import balkTextureSrc from "../../assets/textures/texture_wood.jpg?url";
-import balkNormalMap from "../../assets/textures/texture_wood_normal.jpg?url";
-import ruberoidTextureSrc from "../../assets/textures/roof_texture.jpg?url";
-import ruberoidNormalMap1Src from "../../assets/textures/roof_texture_normal_map.jpg?url";
-import ruberoidNormalMap2Src from "../../assets/textures/roof_texture_normal_map22.jpg?url";
+import balkTextureSrc from "/textures/texture_wood.jpg?url";
+import balkNormalMap from "/textures/texture_wood_normal.jpg?url";
+import ruberoidTextureSrc from "/textures/roof_texture.jpg?url";
+import ruberoidNormalMap1Src from "/textures/roof_texture_normal_map.jpg?url";
+import ruberoidNormalMap2Src from "/textures/roof_texture_normal_map22.jpg?url";
 
 export function AssetsProvider({ children }: { children: ReactNode }) {
   const materialsGltf = useGLTF(materialsFile);

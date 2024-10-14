@@ -1,6 +1,5 @@
 import { forwardRef } from "react";
 import { Vector3, Euler, BufferGeometry, Material, Mesh } from "three";
-import { useMeshDimensions } from "../hooks/useMeshDimensions";
 interface RoofEdgeProps {
   geometry?: BufferGeometry;
   material?: Material;
@@ -11,9 +10,6 @@ interface RoofEdgeProps {
 
 const RoofEdge = forwardRef<Mesh, RoofEdgeProps>(
   ({ geometry, material, position, rotation, scale }, ref) => {
-    // const size = useMeshDimensions(ref);
-    // const cornerSize = useMeshDimensions(cornerRef);
-    // console.log("size of edge ", size);
     return (
       <mesh
         ref={ref}

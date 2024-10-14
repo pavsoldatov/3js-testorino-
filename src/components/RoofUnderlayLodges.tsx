@@ -1,6 +1,6 @@
 import { useMemo, useRef } from "react";
 import { Instance, Instances } from "@react-three/drei";
-import { BufferGeometry, InstancedMesh, Material, Vector3 } from "three";
+import { BufferGeometry, InstancedMesh, Vector3 } from "three";
 import { createUnderlayLodges } from "../utils/createUnderlayLodges";
 import { Woods } from "../context/AssetsContext/AssetsContext";
 import { useMaterialStore } from "../store/materialStore";

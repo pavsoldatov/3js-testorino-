@@ -1,4 +1,4 @@
-import { BufferGeometry, Material, Vector3 } from "three";
+import { BufferGeometry } from "three";
 import { createRoofUnderlaySideLodges } from "../utils/createRoofUnderlaySideLodges";
 import { useMemo } from "react";
 import { Instance, Instances } from "@react-three/drei";

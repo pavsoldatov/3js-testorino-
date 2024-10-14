@@ -10,7 +10,13 @@ import { AsideControlsGui } from "./components/AsideControlsGui";
 function App() {
   return (
     <>
-      <div style={{ display: "flex", width: "100vw", height: "100vh" }}>
+      <div
+        style={{
+          display: "flex",
+          width: "100vw",
+          height: "100vh",
+        }}
+      >
         <AsideControls />
         <CanvasContainer>
           <Skybox />

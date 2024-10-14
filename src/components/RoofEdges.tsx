@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import { useMemo } from "react";
 import { BufferGeometry } from "three";
 import { Metals } from "../context/AssetsContext/AssetsContext";
 import { useMaterialStore } from "../store/materialStore";

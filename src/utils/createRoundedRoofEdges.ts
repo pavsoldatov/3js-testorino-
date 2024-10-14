@@ -120,7 +120,6 @@ export const createStraightRoofEdges = (
 export const createStraightRoofEdgeCorners = (
   width: number,
   depth: number,
-  padding: number
 ) => {
   return [
     // Top-left corner (X-, Z+)
